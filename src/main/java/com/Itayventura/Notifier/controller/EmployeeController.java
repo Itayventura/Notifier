@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //todo that should be controller and not rest controller
-@RestController
+@Controller
 @RequestMapping("/employees")
 public class EmployeeController {
     private final EmployeeRepository employeeRepository;
@@ -25,7 +25,9 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public Iterable<Employee> getEmployees(){
-            return this.employeeRepository.findAll();
+    public String getEmployees(Model model){
+            Iterable<Employee> employees = this.employeeRepository.findAll();
+            model.addAttribute("employees", employees);
+            return "employees";
     }
 }
