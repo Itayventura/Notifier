@@ -22,8 +22,27 @@ public class Employee {
     @Column(name = "email_address")
     private String emailAddress;
 
-    @Column(name = "manager_id")
-    private long managerId;
+    @Column(name = "roll")
+    private String roll;
+
+    public String getRoll() {
+        return roll;
+    }
+
+    public void setRoll(String roll) {
+        this.roll = roll;
+    }
+
+    public long getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(long teamId) {
+        this.teamId = teamId;
+    }
+
+    @Column(name = "team_id")
+    private long teamId;
 
     public long getEmployeeId() {
         return employeeId;
@@ -55,14 +74,6 @@ public class Employee {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    public long getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(long managerId) {
-        this.managerId = managerId;
     }
 
 }
