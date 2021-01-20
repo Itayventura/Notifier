@@ -25,6 +25,9 @@ public class Employee {
     @Column(name = "roll")
     private String roll;
 
+    @Column(name = "team_id")
+    private long teamId;
+
     public String getRoll() {
         return roll;
     }
@@ -40,9 +43,6 @@ public class Employee {
     public void setTeamId(long teamId) {
         this.teamId = teamId;
     }
-
-    @Column(name = "team_id")
-    private long teamId;
 
     public long getEmployeeId() {
         return employeeId;
