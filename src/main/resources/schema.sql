@@ -17,5 +17,12 @@ CREATE TABLE employee (
 
 );
 
-
+CREATE TABLE team_message(
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    content VARCHAR(255) NOT NULL,
+    sender_id INT(11),
+    team_id INT(11),
+    FOREIGN KEY (sender_id) REFERENCES employee(id),
+    FOREIGN KEY (team_id) REFERENCES team(id)
+);
 

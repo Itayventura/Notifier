@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+</head>
+<body>
+<h1>Welcome to Message Page</h1>
+<table>
+    <tr>
+        <td>content</td>
+        <td>sender id</td>
+    </tr>
+    <tr th:each="message: ${messages}">
+        <td th:text="${message.content}">content</td>
+        <td th:text="${message.senderId}">senderId</td>
+    </tr>
+</table>
+</body>
+</html>
