@@ -11,7 +11,7 @@ public class Employee {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long employeeId;
+    private int employeeId;
 
     @Column(name = "first_name")
     private String firstName;
@@ -25,8 +25,9 @@ public class Employee {
     @Column(name = "roll")
     private String roll;
 
-    @Column(name = "team_id")
-    private long teamId;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     public String getRoll() {
         return roll;
@@ -36,19 +37,19 @@ public class Employee {
         this.roll = roll;
     }
 
-    public long getTeamId() {
-        return teamId;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeamId(long teamId) {
-        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
-    public long getEmployeeId() {
+    public int getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(long employeeId) {
+    public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
     }
 

@@ -9,7 +9,7 @@ public class Team {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long teamId;
+    private Integer teamId;
 
     @Column(name = "name")
     private String name;
@@ -17,11 +17,21 @@ public class Team {
     @Column(name = "department")
     private String department;
 
-    public long getTeamId() {
+    public Team(){
+
+    }
+
+    public Team(Integer teamId, String name, String department) {
+        this.teamId = teamId;
+        this.name = name;
+        this.department = department;
+    }
+
+    public Integer getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(long teamId) {
+    public void setTeamId(Integer teamId) {
         this.teamId = teamId;
     }
 

@@ -5,27 +5,32 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "team_message")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class TeamMessage extends Message {
 
-    public TeamMessage(long messageId, String content, long senderId, long teamId){
-        super(messageId, content, senderId);
-        this.teamId = teamId;
+    @JoinColumn(name = "team_id")
+    @ManyToOne
+    private Team team;
+
+    public TeamMessage(int messageId, String content, Employee sender, Team team){
+        super(messageId, content, sender);
+        this.team = team;
+    }
+
+    public TeamMessage(String content, Employee sender, Team team){
+        super(content, sender);
+        this.team = team;
     }
 
     public TeamMessage(){
         super();
     }
 
-    @Column(name = "team_id")
-    private long teamId;
 
-
-    public long getTeamId() {
-        return teamId;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeamId(long teamId) {
-        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

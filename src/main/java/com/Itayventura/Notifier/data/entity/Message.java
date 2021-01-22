@@ -3,35 +3,42 @@ package com.Itayventura.Notifier.data.entity;
 import javax.persistence.*;
 
 @MappedSuperclass
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Message {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long messageId;
+    private int messageId;
 
     @Column(name = "content")
     private String content;
 
-    @Column(name = "sender_id")
-    private long senderId;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private Employee sender;
 
-    public Message(long messageId, String content, long senderId) {
+    public Message(int messageId, String content, Employee sender) {
         this.content = content;
         this.messageId = messageId;
-        this.senderId = senderId;
+        this.sender = sender;
     }
 
-    public Message(){
+    public Message(String content, Employee sender) {
+        this.content = content;
+        this.sender = sender;
+    }
+
+    public Message() {
 
     }
 
 
-    public long getMessageId() {
+    public int getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(long messageId) {
+    public void setMessageId(int messageId) {
         this.messageId = messageId;
     }
 
@@ -43,11 +50,11 @@ public class Message {
         this.content = content;
     }
 
-    public long getSenderId() {
-        return senderId;
+    public Employee getSender() {
+        return sender;
     }
 
-    public void setSenderId(long senderId) {
-        this.senderId = senderId;
+    public void setSender(Employee sender) {
+        this.sender = sender;
     }
 }
