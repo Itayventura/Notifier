@@ -8,8 +8,8 @@ public class Team {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer teamId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int teamId;
 
     @Column(name = "name")
     private String name;
@@ -17,21 +17,11 @@ public class Team {
     @Column(name = "department")
     private String department;
 
-    public Team(){
-
-    }
-
-    public Team(Integer teamId, String name, String department) {
-        this.teamId = teamId;
-        this.name = name;
-        this.department = department;
-    }
-
-    public Integer getTeamId() {
+    public int getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(Integer teamId) {
+    public void setTeamId(int teamId) {
         this.teamId = teamId;
     }
 
@@ -49,5 +39,10 @@ public class Team {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    @Override
+    public String toString(){
+        return this.getTeamId() + " " + this.getName() + " " + this.getDepartment();
     }
 }

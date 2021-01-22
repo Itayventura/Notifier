@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Welcome to Teams Page</h1>
+<table>
+    <tr>
+        <td>Team name</td>
+
+    </tr>
+    <tr th:each="t: ${team}">
+        <td th:text="${t.name}">team name</td>
+    </tr>
+</table>
+</body>
+</html>
