@@ -8,14 +8,18 @@
 <h1>Welcome to Employee Page</h1>
 <table>
     <tr>
+        <td>employee id</td>
         <td>First Name</td>
         <td>Last Name</td>
         <td>Email Address</td>
+        <td>Team Name</td>
     </tr>
     <tr th:each="employee: ${employees}">
+        <td th:text="${employee.employeeId}">Employee id</td>
         <td th:text="${employee.firstName}">First Name</td>
         <td th:text="${employee.lastName}">Last Name</td>
         <td th:text="${employee.emailAddress}">Email Address</td>
+        <td th:text="${employee.team.name}">Team Name</td>
     </tr>
 </table>
 </body>

@@ -10,8 +10,8 @@ public class Employee {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int employeeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer employeeId;
 
     @Column(name = "first_name")
     private String firstName;
@@ -45,11 +45,11 @@ public class Employee {
         this.team = team;
     }
 
-    public int getEmployeeId() {
+    public Integer getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(int employeeId) {
+    public void setEmployeeId(Integer employeeId) {
         this.employeeId = employeeId;
     }
 

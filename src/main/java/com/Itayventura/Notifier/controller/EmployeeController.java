@@ -1,32 +1,35 @@
 package com.Itayventura.Notifier.controller;
 
+import com.Itayventura.Notifier.business.service.EmployeeService;
 import com.Itayventura.Notifier.business.service.TeamEmployeesService;
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 //todo handle (team does not exist) java.util.NoSuchElementException:
 @Controller
 @RequestMapping("/employees")
 public class EmployeeController {
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
     private final TeamEmployeesService teamEmployeesService;
 
 
     @Autowired
-    public EmployeeController(EmployeeRepository employeeRepository, TeamEmployeesService teamEmployeesService){
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService, TeamEmployeesService teamEmployeesService){
+        this.employeeService = employeeService;
         this.teamEmployeesService = teamEmployeesService;
     }
 
     @GetMapping
     public String getEmployees(Model model){
-            Iterable<Employee> employees = this.employeeRepository.findAll();
+            Iterable<Employee> employees = this.employeeService.getEmployees();
             model.addAttribute("employees", employees);
             return "employees";
     }
@@ -36,5 +39,13 @@ public class EmployeeController {
         Iterable<Employee> teamEmployees = this.teamEmployeesService.getTeamEmployees(teamName);
         model.addAttribute("employees", teamEmployees);
         return "employees";
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<Void> addEmployee(@RequestBody Employee employee, UriComponentsBuilder builder){
+        this.employeeService.addEmployee(employee);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(builder.path("/employee/new/{id}").buildAndExpand(employee.getEmployeeId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 }
