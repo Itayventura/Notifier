@@ -1,6 +1,6 @@
 package com.Itayventura.Notifier.business.service;
 
-import com.Itayventura.Notifier.data.entity.Employee;
+import com.Itayventura.Notifier.business.domain.Merger;
 import com.Itayventura.Notifier.data.entity.EmployeeMessage;
 import com.Itayventura.Notifier.data.entity.Message;
 import com.Itayventura.Notifier.data.entity.TeamMessage;
@@ -10,7 +10,6 @@ import com.Itayventura.Notifier.data.repository.TeamMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,6 +34,13 @@ public class MessageService {
 
     public void addTeamMessage(TeamMessage message){
         this.teamMessageRepository.save(message);
+    }
+
+    public List<Message> getMessages(){
+        Iterable<? extends Message> teamMessages = getTeamMessages();
+        Iterable<? extends Message> employeeMessages = getEmployeeMessages();
+        List<Message> messages = Merger.mergeIterators(teamMessages.iterator(), employeeMessages.iterator());
+        return messages;
     }
 
     public Iterable<EmployeeMessage> getEmployeeMessages(){

@@ -13,6 +13,7 @@
         <td>Last Name</td>
         <td>Team Name</td>
         <td>Message Type</td>
+        <td>Local Date Time</td>
     </tr>
     <tr th:each="message: ${messages}">
         <td th:text="${message.content}">content</td>
@@ -20,7 +21,7 @@
         <td th:text="${message.sender.lastName}">Last Name</td>
         <td th:text="${message.sender.team.name}">Team Name</td>
         <td th:text="${message.type}">Message Type</td>
-
+        <td th:text="${message.localDateTime}">Local Date Time</td>
 
     </tr>
 </table>

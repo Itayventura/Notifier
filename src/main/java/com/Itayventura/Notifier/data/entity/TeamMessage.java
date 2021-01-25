@@ -15,11 +15,6 @@ public class TeamMessage extends Message {
         this.team = team;
     }
 
-    public TeamMessage(String content, Employee sender, Team team){
-        super(content, sender);
-        this.team = team;
-    }
-
     public TeamMessage(){
         super();
     }

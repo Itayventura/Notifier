@@ -19,6 +19,7 @@ CREATE TABLE employee (
 CREATE TABLE team_message (
     id INTEGER NOT NULL AUTO_INCREMENT,
     content VARCHAR(255) NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     sender_id INT(11),
     team_id INT(11),
     FOREIGN KEY (sender_id) REFERENCES employee(id),
@@ -28,6 +29,7 @@ CREATE TABLE team_message (
 CREATE TABLE employee_message (
     id INTEGER NOT NULL AUTO_INCREMENT,
     content VARCHAR(255) NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     sender_id INT(11),
     employee_id INT(11),
     FOREIGN KEY (sender_id) REFERENCES employee(id),

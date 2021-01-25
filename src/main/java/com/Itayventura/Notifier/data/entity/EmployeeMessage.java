@@ -15,10 +15,6 @@ public class EmployeeMessage extends Message {
         this.employee = employee;
     }
 
-    public EmployeeMessage(String content, Employee sender, Employee employee){
-        super(content, sender);
-        this.employee = employee;
-    }
 
     public EmployeeMessage(){
         super();

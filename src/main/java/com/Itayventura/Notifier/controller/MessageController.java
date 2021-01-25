@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -68,15 +69,7 @@ public class MessageController {
 
     @GetMapping
     public String getMessages(Model model){
-        Iterable<TeamMessage> teamMessages = this.messageService.getTeamMessages();
-        Iterable<EmployeeMessage> employeeMessages = this.messageService.getEmployeeMessages();
-        List<Message> messages = new ArrayList<>();
-        for (Message teamMessage: teamMessages){
-            messages.add(teamMessage);
-        }
-        for (Message employeeMessage: employeeMessages){
-            messages.add(employeeMessage);
-        }
+        List<Message> messages = this.messageService.getMessages();
         model.addAttribute("messages", messages);
         return "messages";
     }
