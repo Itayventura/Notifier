@@ -3,12 +3,11 @@ package com.Itayventura.Notifier.data.entity;
 import javax.persistence.*;
 
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Message {
+public abstract class Message {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int messageId;
 
     @Column(name = "content")
@@ -32,6 +31,8 @@ public class Message {
     public Message() {
 
     }
+
+    abstract String getType();
 
 
     public int getMessageId() {
@@ -57,4 +58,6 @@ public class Message {
     public void setSender(Employee sender) {
         this.sender = sender;
     }
+
+
 }

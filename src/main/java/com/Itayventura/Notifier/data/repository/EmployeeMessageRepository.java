@@ -1,10 +1,9 @@
 package com.Itayventura.Notifier.data.repository;
 
-import com.Itayventura.Notifier.data.entity.Message;
+import com.Itayventura.Notifier.data.entity.EmployeeMessage;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MessageRepository<T extends Message> extends CrudRepository<T, Integer> {
-
+public interface EmployeeMessageRepository extends MessageRepository<EmployeeMessage> {
 }

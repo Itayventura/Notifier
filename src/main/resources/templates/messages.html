@@ -9,11 +9,19 @@
 <table>
     <tr>
         <td>content</td>
-        <td>sender id</td>
+        <td>first name</td>
+        <td>Last Name</td>
+        <td>Team Name</td>
+        <td>Message Type</td>
     </tr>
     <tr th:each="message: ${messages}">
         <td th:text="${message.content}">content</td>
-        <td th:text="${message.senderId}">senderId</td>
+        <td th:text="${message.sender.firstName}">First Name</td>
+        <td th:text="${message.sender.lastName}">Last Name</td>
+        <td th:text="${message.sender.team.name}">Team Name</td>
+        <td th:text="${message.type}">Message Type</td>
+
+
     </tr>
 </table>
 </body>

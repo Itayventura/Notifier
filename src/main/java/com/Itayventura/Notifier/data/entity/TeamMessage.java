@@ -2,7 +2,6 @@ package com.Itayventura.Notifier.data.entity;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "team_message")
 public class TeamMessage extends Message {
@@ -25,12 +24,18 @@ public class TeamMessage extends Message {
         super();
     }
 
-
-    public Team getTeam() {
-        return team;
+    @Override
+    public String getType(){
+        return "Team";
     }
+
+
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }
