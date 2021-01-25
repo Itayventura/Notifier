@@ -5,6 +5,8 @@ import com.Itayventura.Notifier.data.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class EmployeeService {
@@ -25,5 +27,24 @@ public class EmployeeService {
 
     public void addEmployee(Employee employee) {
         this.employeeRepository.save(employee);
+    }
+
+    public void updateEmployee(Employee updatedEmployee){
+        Optional<Employee> opt = this.employeeRepository.findById(updatedEmployee.getEmployeeId());
+        if (opt.isPresent()){
+            Employee employee = opt.get();
+            employee.setEmailAddress(updatedEmployee.getEmailAddress());
+            employee.setFirstName(updatedEmployee.getFirstName());
+            employee.setLastName(updatedEmployee.getLastName());
+            employee.setRoll(updatedEmployee.getRoll());
+            employee.setTeam(updatedEmployee.getTeam());
+            this.employeeRepository.save(employee);
+        } else{
+            //todo handle
+        }
+    }
+
+    public void deleteEmployee(Employee employee){
+        this.employeeRepository.delete(employee);
     }
 }

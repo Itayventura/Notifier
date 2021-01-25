@@ -3,7 +3,6 @@ package com.Itayventura.Notifier.controller;
 import com.Itayventura.Notifier.business.service.EmployeeService;
 import com.Itayventura.Notifier.business.service.TeamEmployeesService;
 import com.Itayventura.Notifier.data.entity.Employee;
-import com.Itayventura.Notifier.data.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -47,5 +46,17 @@ public class EmployeeController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(builder.path("/employee/new/{id}").buildAndExpand(employee.getEmployeeId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee){
+        this.employeeService.updateEmployee(employee);
+        return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteEmployee(@RequestBody Employee employee){
+        this.employeeService.deleteEmployee(employee);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 }
