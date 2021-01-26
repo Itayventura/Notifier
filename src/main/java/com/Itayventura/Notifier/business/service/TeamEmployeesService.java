@@ -20,7 +20,7 @@ public class TeamEmployeesService {
 
     public Iterable<Employee> getTeamEmployees(String teamName){
         Team team = this.teamRepository.findOneByName(teamName).get();
-        Iterable<Employee> teamEmployees = this.employeeRepository.findAllByTeamId(team.getTeamId());
+        Iterable<Employee> teamEmployees = this.employeeRepository.findAllByTeam(team);
         return teamEmployees;
     }
 }

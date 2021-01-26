@@ -25,8 +25,8 @@ public class EmployeeService {
         return this.employeeRepository.findAll();
     }
 
-    public void addEmployee(Employee employee) {
-        this.employeeRepository.save(employee);
+    public Employee addEmployee(Employee employee) {
+        return this.employeeRepository.save(employee);
     }
 
     public void updateEmployee(Employee updatedEmployee){
