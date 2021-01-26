@@ -29,7 +29,7 @@ public class EmployeeService {
         return this.employeeRepository.save(employee);
     }
 
-    public void updateEmployee(Employee updatedEmployee){
+    public Employee updateEmployee(Employee updatedEmployee){
         Optional<Employee> opt = this.employeeRepository.findById(updatedEmployee.getEmployeeId());
         if (opt.isPresent()){
             Employee employee = opt.get();
@@ -38,9 +38,9 @@ public class EmployeeService {
             employee.setLastName(updatedEmployee.getLastName());
             employee.setRoll(updatedEmployee.getRoll());
             employee.setTeam(updatedEmployee.getTeam());
-            this.employeeRepository.save(employee);
+            return this.employeeRepository.save(employee);
         } else{
-            //todo handle
+            return null;
         }
     }
 
