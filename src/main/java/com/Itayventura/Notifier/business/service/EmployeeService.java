@@ -6,6 +6,8 @@ import com.Itayventura.Notifier.payroll.EmployeeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -31,8 +33,11 @@ public class EmployeeService {
         }
     }
 
-    public Iterable<Employee> getEmployees(){
-        return this.employeeRepository.findAll();
+    public List<Employee> getEmployees(){
+        Iterable<Employee> employees = this.employeeRepository.findAll();
+        List<Employee> employeeList = new ArrayList<>();
+        employees.iterator().forEachRemaining(employeeList::add);
+        return employeeList;
     }
 
     public Employee addEmployee(Employee employee) {
