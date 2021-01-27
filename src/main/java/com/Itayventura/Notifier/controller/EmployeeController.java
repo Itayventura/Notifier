@@ -4,6 +4,8 @@ import com.Itayventura.Notifier.business.service.EmployeeService;
 import com.Itayventura.Notifier.business.service.TeamEmployeesService;
 import com.Itayventura.Notifier.data.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 //todo handle (team does not exist) java.util.NoSuchElementException:
 @Controller
@@ -27,11 +37,12 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public String getEmployees(Model model){
-            Iterable<Employee> employees = this.employeeService.getEmployees();
-            model.addAttribute("employees", employees);
-            return "employees";
+    public String all(Model model){
+        Iterable<Employee> employees = this.employeeService.getEmployees();
+        model.addAttribute("employees", employees);
+        return "employees";
     }
+
 
     @GetMapping(value = "/team")
     public String getTeamEmployees(@RequestParam(value="team")String teamName, Model model){
@@ -48,6 +59,7 @@ public class EmployeeController {
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
+    //todo handle somehow updated or not ?
     @PutMapping("/update")
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee){
         this.employeeService.updateEmployee(employee);
@@ -58,5 +70,20 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployee(@RequestBody Employee employee){
         this.employeeService.deleteEmployee(employee);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{id}")
+    ResponseEntity<EntityModel<Employee>> one(@PathVariable int id) {
+        ResponseEntity<EntityModel<Employee>> responseEntity = null;
+            Employee employee = this.employeeService.getEmployeeById(id);
+
+            EntityModel<Employee> employeeResource = EntityModel.of(employee,
+                    linkTo(methodOn(EmployeeController.class).one(id)).withSelfRel());
+
+            return new ResponseEntity<>(employeeResource, HttpStatus.OK);
+
+
+
+
     }
 }
