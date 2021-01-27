@@ -59,6 +59,7 @@ public class EmployeeController {
     }
 
 
+    //todo as same as above (all)
     @GetMapping(value = "/team")
     public String getTeamEmployees(@RequestParam(value="team")String teamName, Model model){
         Iterable<Employee> teamEmployees = this.teamEmployeesService.getTeamEmployees(teamName);
@@ -66,12 +67,10 @@ public class EmployeeController {
         return "employees";
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<Void> addEmployee(@RequestBody Employee employee, UriComponentsBuilder builder){
-        this.employeeService.addEmployee(employee);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/employee/new/{id}").buildAndExpand(employee.getEmployeeId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    @PostMapping()
+    public ResponseEntity<?> addEmployee(@RequestBody Employee employee, UriComponentsBuilder builder){
+        EntityModel<Employee> entityModel = this.assembler.toModel(this.employeeService.addEmployee(employee));
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
     //todo handle somehow updated or not ?
