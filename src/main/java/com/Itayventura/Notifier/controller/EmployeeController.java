@@ -53,10 +53,9 @@ public class EmployeeController {
     public ResponseEntity<EntityModel<Employee>> one(@PathVariable int id) {
         Employee employee = this.employeeService.getEmployeeById(id);
 
-        EntityModel<Employee> employeeResource = EntityModel.of(employee,
-                linkTo(methodOn(EmployeeController.class).one(id)).withSelfRel());
+        EntityModel<Employee> entityModel = this.assembler.toModel(employee);
 
-        return new ResponseEntity<>(employeeResource, HttpStatus.OK);
+        return new ResponseEntity<>(entityModel, HttpStatus.OK);
     }
 
 
