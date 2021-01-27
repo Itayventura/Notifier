@@ -73,11 +73,12 @@ public class EmployeeController {
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
-    //todo handle somehow updated or not ?
+
     @PutMapping("/update")
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee){
-        this.employeeService.updateEmployee(employee);
-        return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+    public ResponseEntity<?> updateEmployee(@RequestBody Employee employee){
+        EntityModel<Employee> entityModel = this.assembler.toModel(this.employeeService.updateEmployee(employee));
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+
     }
 
     @DeleteMapping("/delete")
