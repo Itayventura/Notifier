@@ -2,6 +2,7 @@ package com.Itayventura.Notifier.business.service;
 
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.repository.EmployeeRepository;
+import com.Itayventura.Notifier.payroll.EmployeeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,17 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Employee getEmployee(String firstName, String lastName){
-        return this.employeeRepository.findByFirstNameAndLastName(firstName, lastName);
+    public Employee getEmployeeById(int id){
+        return this.employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+    }
+
+    public Employee getEmployeeByName(String firstName, String lastName){
+        Employee employee =  this.employeeRepository.findByFirstNameAndLastName(firstName, lastName);
+        if (employee != null){
+            return employee;
+        } else {
+            throw new EmployeeNotFoundException(firstName, lastName);
+        }
     }
 
     public Iterable<Employee> getEmployees(){
@@ -40,7 +50,7 @@ public class EmployeeService {
             employee.setTeam(updatedEmployee.getTeam());
             return this.employeeRepository.save(employee);
         } else{
-            return null;
+            return this.employeeRepository.save(updatedEmployee);
         }
     }
 

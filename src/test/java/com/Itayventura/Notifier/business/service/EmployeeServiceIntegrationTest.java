@@ -2,7 +2,7 @@ package com.Itayventura.Notifier.business.service;
 
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.entity.Team;
-import org.junit.Assert;
+import com.Itayventura.Notifier.payroll.EmployeeNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,8 +55,11 @@ public class EmployeeServiceIntegrationTest {
 
         employeeService.deleteEmployee(employee);
 
-        newEmployee = employeeService.getEmployee(employee.getFirstName(), employee.getLastName());
-        assertNull(newEmployee);
+        try {
+            newEmployee = employeeService.getEmployeeByName(employee.getFirstName(), employee.getLastName());
+        } catch (EmployeeNotFoundException ex){
+            assertEquals("could not find employee " + employee.getFirstName() + " " + employee.getLastName(), ex.getMessage());
+        }
     }
 
     @Test (expected = org.springframework.dao.InvalidDataAccessApiUsageException.class)
@@ -92,8 +95,11 @@ public class EmployeeServiceIntegrationTest {
         assertEquals("Not " + employee.getLastName(), newEmployee.getLastName());
 
         employeeService.deleteEmployee(newEmployee);
-        newEmployee = employeeService.getEmployee(newEmployee.getFirstName(), newEmployee.getLastName());
-        assertNull(newEmployee);
+        try {
+            newEmployee = employeeService.getEmployeeByName(employee.getFirstName(), employee.getLastName());
+        } catch (EmployeeNotFoundException ex){
+            assertEquals("could not find employee " + employee.getFirstName() + " " + employee.getLastName(), ex.getMessage());
+        }
     }
 
     @Test(expected = org.springframework.dao.DataIntegrityViolationException.class)
@@ -108,12 +114,15 @@ public class EmployeeServiceIntegrationTest {
             newEmployee = employeeService.updateEmployee(newEmployee);
 
         } finally {
-            newEmployee = employeeService.getEmployee(employee.getFirstName(), employee.getLastName());
+            newEmployee = employeeService.getEmployeeByName(employee.getFirstName(), employee.getLastName());
             assertNotNull(newEmployee);
             assertNotNull(newEmployee.getFirstName());
             employeeService.deleteEmployee(newEmployee);
-            newEmployee = employeeService.getEmployee(employee.getFirstName(), employee.getLastName());
-            assertNull(newEmployee);
+            try {
+                newEmployee = employeeService.getEmployeeByName(employee.getFirstName(), employee.getLastName());
+            } catch (EmployeeNotFoundException ex){
+                assertEquals("could not find employee " + employee.getFirstName() + " " + employee.getLastName(), ex.getMessage());
+            }
         }
     }
 
@@ -123,16 +132,19 @@ public class EmployeeServiceIntegrationTest {
         assertNotNull(newEmployee);
         employee.setEmployeeId(newEmployee.getEmployeeId());
         employeeService.deleteEmployee(employee);
-        newEmployee = employeeService.getEmployee(employee.getFirstName(), employee.getLastName());
-        assertNull(newEmployee);
+        try {
+            newEmployee = employeeService.getEmployeeByName(employee.getFirstName(), employee.getLastName());
+        } catch (EmployeeNotFoundException ex){
+            assertEquals("could not find employee " + employee.getFirstName() + " " + employee.getLastName(), ex.getMessage());
+        }
     }
 
     @Test
-    public void getEmployee(){
+    public void testGetEmployeeByName(){
         Employee newEmployee = employeeService.addEmployee(employee);
         assertNotNull(newEmployee);
         employee.setEmployeeId(newEmployee.getEmployeeId());
-        newEmployee = employeeService.getEmployee(employee.getFirstName(), employee.getLastName());
+        newEmployee = employeeService.getEmployeeByName(employee.getFirstName(), employee.getLastName());
         assertNotNull(newEmployee);
         assertEquals(employee.getRoll(), newEmployee.getRoll());
         assertEquals(employee.getFirstName(), newEmployee.getFirstName());
@@ -142,15 +154,46 @@ public class EmployeeServiceIntegrationTest {
         assertEquals(employee.getTeam().getDepartment(), newEmployee.getTeam().getDepartment());
 
         employeeService.deleteEmployee(newEmployee);
-        newEmployee = employeeService.getEmployee(employee.getFirstName(), employee.getLastName());
-        assertNull(newEmployee);
+        try {
+            newEmployee = employeeService.getEmployeeByName(employee.getFirstName(), employee.getLastName());
+        } catch (EmployeeNotFoundException ex){
+            assertEquals("could not find employee " + employee.getFirstName() + " " + employee.getLastName(), ex.getMessage());
+        }
     }
 
     @Test
-    public void getNotExistingEmployee(){
-        Employee newEmployee = employeeService.getEmployee("not", "exist");
-        assertNull(newEmployee);
+    public void testGetEmployeeById(){
+        Employee newEmployee = employeeService.addEmployee(employee);
+        assertNotNull(newEmployee);
+        employee.setEmployeeId(newEmployee.getEmployeeId());
+        newEmployee = employeeService.getEmployeeById(newEmployee.getEmployeeId());
+        assertNotNull(newEmployee);
+        assertEquals(employee.getRoll(), newEmployee.getRoll());
+        assertEquals(employee.getFirstName(), newEmployee.getFirstName());
+        assertEquals(employee.getEmailAddress(), newEmployee.getEmailAddress());
+        assertEquals(employee.getLastName(), newEmployee.getLastName());
+        assertEquals(employee.getTeam().getName(), newEmployee.getTeam().getName());
+        assertEquals(employee.getTeam().getDepartment(), newEmployee.getTeam().getDepartment());
+
+        employeeService.deleteEmployee(newEmployee);
+        try {
+            newEmployee = employeeService.getEmployeeByName(employee.getFirstName(), employee.getLastName());
+        } catch (EmployeeNotFoundException ex){
+            assertEquals("could not find employee " + employee.getFirstName() + " " + employee.getLastName(), ex.getMessage());
+        }
     }
+
+    @Test(expected = EmployeeNotFoundException.class)
+    public void testGetNotExistingEmployee(){
+        employeeService.getEmployeeById(Integer.MAX_VALUE);
+    }
+
+    @Test(expected = EmployeeNotFoundException.class)
+    public void getNotExistingEmployee(){
+        employeeService.getEmployeeByName("not", "exist");
+    }
+
+    //todo test getEmployees ?
 
 
 }
