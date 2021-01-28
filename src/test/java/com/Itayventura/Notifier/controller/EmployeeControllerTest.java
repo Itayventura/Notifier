@@ -5,10 +5,8 @@ import com.Itayventura.Notifier.business.service.TeamEmployeesService;
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.entity.Team;
 import com.Itayventura.Notifier.payroll.EmployeeModelAssembler;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,18 +14,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,21 +81,11 @@ public class EmployeeControllerTest {
 
         when(employeeService.addEmployee(any(Employee.class))).thenReturn(null);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/employees")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new Employee()))
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().is5xxServerError()).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-        System.out.println(response.getContentAsString());
-
         mockMvc.perform(MockMvcRequestBuilders.post("/employees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new Employee()))
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is5xxServerError())
-                .andReturn();
+                .andExpect(status().is5xxServerError());
     }
 
     @Test
