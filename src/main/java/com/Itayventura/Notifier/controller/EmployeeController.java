@@ -58,19 +58,14 @@ public class EmployeeController {
         return new ResponseEntity<>(entityModel, HttpStatus.OK);
     }
 
-
-    //todo as same as above (all)
-    @GetMapping(value = "/team")
-    public String getTeamEmployees(@RequestParam(value="team")String teamName, Model model){
-        Iterable<Employee> teamEmployees = this.teamEmployeesService.getTeamEmployees(teamName);
-        model.addAttribute("employees", teamEmployees);
-        return "employees";
-    }
-
     @PostMapping()
     public ResponseEntity<?> addEmployee(@RequestBody Employee employee, UriComponentsBuilder builder){
+        Employee newEmployee = this.employeeService.addEmployee(employee);
+        if (newEmployee == null){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         EntityModel<Employee> entityModel = this.assembler.toModel(this.employeeService.addEmployee(employee));
-        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+        return new ResponseEntity<>(entityModel, HttpStatus.CREATED);
     }
 
 
@@ -87,5 +82,17 @@ public class EmployeeController {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
+
+    //todo as same as above (all) return response entity
+    @GetMapping(value = "/team")
+    public String getTeamEmployees(@RequestParam(value="team")String teamName, Model model){
+        Iterable<Employee> teamEmployees = this.teamEmployeesService.getTeamEmployees(teamName);
+        model.addAttribute("employees", teamEmployees);
+        return "employees";
+    }
+
+    public void Print(){
+        System.out.println("hello");
+    }
 
 }
