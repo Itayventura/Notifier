@@ -13,12 +13,9 @@ import java.util.Optional;
 
 @Service
 public class EmployeeService {
-    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository){
-        this.employeeRepository = employeeRepository;
-    }
+    private EmployeeRepository employeeRepository;
 
     public Employee getEmployeeById(int id){
         return this.employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
