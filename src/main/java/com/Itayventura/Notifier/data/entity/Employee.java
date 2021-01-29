@@ -1,12 +1,15 @@
 package com.Itayventura.Notifier.data.entity;
 
 
+
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "employee")
 public class Employee {
-
 
     @Id
     @Column(name = "id")
@@ -28,53 +31,4 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
-
-    public String getRoll() {
-        return roll;
-    }
-
-    public void setRoll(String roll) {
-        this.roll = roll;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
 }
