@@ -3,7 +3,9 @@ package com.Itayventura.Notifier.controller;
 import com.Itayventura.Notifier.business.service.EmployeeService;
 import com.Itayventura.Notifier.business.service.TeamEmployeesService;
 import com.Itayventura.Notifier.data.entity.Employee;
+import com.Itayventura.Notifier.data.entity.Team;
 import com.Itayventura.Notifier.payroll.EmployeeModelAssembler;
+import com.Itayventura.Notifier.payroll.EmployeeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -52,9 +54,10 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<Employee>> one(@PathVariable int id) {
         Employee employee = this.employeeService.getEmployeeById(id);
-
+        if (employee == null){
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         EntityModel<Employee> entityModel = this.assembler.toModel(employee);
-
         return new ResponseEntity<>(entityModel, HttpStatus.OK);
     }
 
@@ -71,8 +74,12 @@ public class EmployeeController {
 
     @PutMapping("/update")
     public ResponseEntity<?> updateEmployee(@RequestBody Employee employee){
-        EntityModel<Employee> entityModel = this.assembler.toModel(this.employeeService.updateEmployee(employee));
-        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+        Employee newEmployee = this.employeeService.updateEmployee(employee);
+        if (newEmployee == null){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        EntityModel<Employee> entityModel = this.assembler.toModel(newEmployee);
+        return new ResponseEntity<>(entityModel, HttpStatus.CREATED);
 
     }
 
@@ -82,17 +89,12 @@ public class EmployeeController {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
-
-    //todo as same as above (all) return response entity
-    @GetMapping(value = "/team")
-    public String getTeamEmployees(@RequestParam(value="team")String teamName, Model model){
-        Iterable<Employee> teamEmployees = this.teamEmployeesService.getTeamEmployees(teamName);
-        model.addAttribute("employees", teamEmployees);
-        return "employees";
-    }
-
-    public void Print(){
-        System.out.println("hello");
+    @GetMapping(value = "/team/{teamName}")
+    public ResponseEntity<CollectionModel<EntityModel<Employee>>> getTeamEmployees(@PathVariable String teamName){
+        List<Employee> employees = this.teamEmployeesService.getTeamEmployees(teamName);
+        List<EntityModel<Employee>> entityModels = employees.stream().map(this.assembler::toModel).collect(Collectors.toList());
+        return ResponseEntity.ok(CollectionModel.of(entityModels,
+                linkTo(methodOn(EmployeeController.class).getTeamEmployees(teamName)).withSelfRel()));
     }
 
 }

@@ -7,6 +7,9 @@ import com.Itayventura.Notifier.data.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TeamEmployeesService {
     private final TeamRepository teamRepository;
@@ -18,9 +21,12 @@ public class TeamEmployeesService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Iterable<Employee> getTeamEmployees(String teamName){
+    //todo notFound Exception
+    public List<Employee> getTeamEmployees(String teamName){
         Team team = this.teamRepository.findOneByName(teamName).get();
         Iterable<Employee> teamEmployees = this.employeeRepository.findAllByTeam(team);
-        return teamEmployees;
+        List<Employee> employeeList = new ArrayList<>();
+        teamEmployees.iterator().forEachRemaining(employeeList::add);
+        return employeeList;
     }
 }
