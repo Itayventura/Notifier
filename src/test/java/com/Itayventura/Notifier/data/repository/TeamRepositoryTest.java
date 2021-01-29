@@ -31,7 +31,7 @@ class TeamRepositoryTest {
     @BeforeEach
     public void setTeam(){
         team = new Team();
-        team.setTeamName("sw11");
+        team.setName("sw11");
         team.setDepartment("R&D");
     }
 

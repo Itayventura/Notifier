@@ -1,8 +1,11 @@
 package com.Itayventura.Notifier.data.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Data
 @MappedSuperclass
 public abstract class Message {
 
@@ -33,38 +36,6 @@ public abstract class Message {
     }
 
     abstract String getType();
-
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
-    }
-
-    public int getMessageId() {
-        return messageId;
-    }
-
-    public void setMessageId(int messageId) {
-        this.messageId = messageId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Employee getSender() {
-        return sender;
-    }
-
-    public void setSender(Employee sender) {
-        this.sender = sender;
-    }
 
 
 }

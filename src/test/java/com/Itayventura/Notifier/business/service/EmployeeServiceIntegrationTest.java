@@ -26,7 +26,7 @@ public class EmployeeServiceIntegrationTest {
     public void setUp(){
         Team team = new Team();
         team.setTeamId(1);
-        team.setTeamName("sw1");
+        team.setName("sw1");
         team.setDepartment("R&D");
 
         employee = new Employee();

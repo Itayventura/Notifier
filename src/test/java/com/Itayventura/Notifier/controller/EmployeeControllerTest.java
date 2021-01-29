@@ -55,7 +55,7 @@ public class EmployeeControllerTest {
     public void setUpEmployee(){
         Team team = new Team();
         team.setTeamId(1);
-        team.setTeamName("sw1");
+        team.setName("sw1");
         team.setDepartment("R&D");
 
         aMockEmployee = new Employee();

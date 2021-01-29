@@ -1,7 +1,10 @@
 package com.Itayventura.Notifier.data.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "team_message")
 public class TeamMessage extends Message {
@@ -24,13 +27,4 @@ public class TeamMessage extends Message {
         return "Team";
     }
 
-
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
 }

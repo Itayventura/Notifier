@@ -1,7 +1,10 @@
 package com.Itayventura.Notifier.data.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "employee_message")
 public class EmployeeMessage extends Message {
@@ -23,15 +26,6 @@ public class EmployeeMessage extends Message {
     @Override
     public String getType() {
         return "Employee";
-    }
-
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 
 

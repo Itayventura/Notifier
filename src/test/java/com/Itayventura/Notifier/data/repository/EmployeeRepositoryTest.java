@@ -32,7 +32,7 @@ class EmployeeRepositoryTest {
     public void setUpEmployee(){
         Team team = new Team();
         team.setTeamId(2);
-        team.setTeamName("sw2");
+        team.setName("sw2");
         team.setDepartment("R&D");
         employee = new Employee();
         employee.setTeam(team);
