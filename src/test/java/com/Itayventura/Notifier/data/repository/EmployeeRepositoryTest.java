@@ -30,10 +30,7 @@ public class EmployeeRepositoryTest {
 
     @Before
     public void setUpEmployee(){
-        Team team = new Team();
-        team.setTeamId(2);
-        team.setName("sw2");
-        team.setDepartment("R&D");
+        Team team = new Team(2, "sw2", "R&D");
         employee = new Employee(null, "David", "Levi","a@a.com", "software developer", team);
     }
 
