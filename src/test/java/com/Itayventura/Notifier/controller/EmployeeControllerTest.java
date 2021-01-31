@@ -73,7 +73,7 @@ public class EmployeeControllerTest {
 
         when(employeeService.addEmployee(any(Employee.class))).thenReturn(aMockEmployee);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/employees")
+        mockMvc.perform(MockMvcRequestBuilders.post("/employees/new")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(aMockEmployee))
                 .accept(MediaType.APPLICATION_JSON))
@@ -86,7 +86,7 @@ public class EmployeeControllerTest {
 
         when(employeeService.addEmployee(any(Employee.class))).thenReturn(null);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/employees")
+        mockMvc.perform(MockMvcRequestBuilders.post("/employees/new")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new Employee()))
                 .accept(MediaType.APPLICATION_JSON))

@@ -3,24 +3,16 @@ package com.Itayventura.Notifier.controller;
 import com.Itayventura.Notifier.business.service.EmployeeService;
 import com.Itayventura.Notifier.business.service.TeamEmployeesService;
 import com.Itayventura.Notifier.data.entity.Employee;
-import com.Itayventura.Notifier.data.entity.Team;
 import com.Itayventura.Notifier.payroll.EmployeeModelAssembler;
-import com.Itayventura.Notifier.payroll.EmployeeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,15 +36,15 @@ public class EmployeeController {
     }
 
     @GetMapping()
-    public ResponseEntity<CollectionModel<EntityModel<Employee>>> all(){
+    public ResponseEntity<CollectionModel<EntityModel<Employee>>> getAllEmployees(){
         List<Employee> employees = this.employeeService.getEmployees();
         List<EntityModel<Employee>> entityModels = employees.stream().map(this.assembler::toModel).collect(Collectors.toList());
         return ResponseEntity.ok(CollectionModel.of(entityModels,
-                linkTo(methodOn(EmployeeController.class).all()).withSelfRel()));
+                linkTo(methodOn(EmployeeController.class).getAllEmployees()).withSelfRel()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<Employee>> one(@PathVariable int id) {
+    public ResponseEntity<EntityModel<Employee>> getEmployeeById(@PathVariable int id) {
         Employee employee = this.employeeService.getEmployeeById(id);
         if (employee == null){
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -61,7 +53,7 @@ public class EmployeeController {
         return new ResponseEntity<>(entityModel, HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping("/new")
     public ResponseEntity<?> addEmployee(@RequestBody Employee employee, UriComponentsBuilder builder){
         Employee newEmployee = this.employeeService.addEmployee(employee);
         if (newEmployee == null){
