@@ -49,16 +49,9 @@ public class EmployeeControllerTest {
 
     @Before
     public void setUpEmployee(){
-        Team team = new Team();
-        team.setName("sw1");
-        team.setDepartment("R&D");
-
-        aMockEmployee = new Employee();
-        aMockEmployee.setTeam(team);
-        aMockEmployee.setRoll("software developer");
-        aMockEmployee.setLastName("Ventura");
-        aMockEmployee.setEmailAddress("a@a.com");
-        aMockEmployee.setFirstName("Itay");    }
+        Team team = new Team(0, "sw1", "R&D");
+        aMockEmployee = new Employee(null, "Itay", "ventura", "a@a.com", "software developer", team);
+    }
 
     @Test
     public void testAddEmployee() throws Exception {
