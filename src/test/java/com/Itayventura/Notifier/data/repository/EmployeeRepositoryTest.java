@@ -34,13 +34,7 @@ public class EmployeeRepositoryTest {
         team.setTeamId(2);
         team.setName("sw2");
         team.setDepartment("R&D");
-        employee = new Employee();
-        employee.setTeam(team);
-        employee.setRoll("software developer");
-        employee.setLastName("Levi");
-        employee.setEmailAddress("a@a.com");
-        employee.setFirstName("David");
-
+        employee = new Employee(null, "David", "Levi","a@a.com", "software developer", team);
     }
 
     @Test

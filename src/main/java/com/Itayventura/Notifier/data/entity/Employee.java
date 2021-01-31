@@ -2,11 +2,15 @@ package com.Itayventura.Notifier.data.entity;
 
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -31,4 +35,5 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
+
 }
