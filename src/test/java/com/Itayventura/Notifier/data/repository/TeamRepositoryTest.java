@@ -1,8 +1,8 @@
 package com.Itayventura.Notifier.data.repository;
 
 import com.Itayventura.Notifier.data.entity.Team;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class TeamRepositoryTest {
+public class TeamRepositoryTest {
 
 
     @Autowired
@@ -28,23 +28,20 @@ class TeamRepositoryTest {
 
     private Team team;
 
-    @BeforeEach
+    @Before
     public void setTeam(){
-        team = new Team();
-        team.setName("sw11");
-        team.setDepartment("R&D");
+        team = new Team(0, "sw11", "R&D");
     }
 
 
     @Test
-    void findOneByName() {
+    public void findOneByName() {
+
         testEntityManager.persist(team);
         Optional<Team> opt = teamRepository.findOneByName(team.getName());
-        assertTrue(!opt.isEmpty());
+        assertFalse(opt.isEmpty());
         Team foundTeam = opt.get();
-        assertEquals(team.getName(), foundTeam.getName());
-        assertEquals(team.getDepartment(), foundTeam.getDepartment());
-
+        assertEquals(team, foundTeam);
 
     }
 }
