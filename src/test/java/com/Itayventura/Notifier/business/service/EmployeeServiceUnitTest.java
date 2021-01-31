@@ -3,22 +3,20 @@ package com.Itayventura.Notifier.business.service;
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.entity.Team;
 import com.Itayventura.Notifier.data.repository.EmployeeRepository;
-import com.Itayventura.Notifier.payroll.EmployeeNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -62,6 +60,8 @@ public class EmployeeServiceUnitTest {
 
         Employee newEmployee = employeeService.addEmployee(aMockEmployee);
 
+        verify(employeeRepository, times(1)).save(aMockEmployee);
+
         assertNotNull(newEmployee);
         assertEquals(aMockEmployee.getFirstName(), newEmployee.getFirstName());
         assertEquals(aMockEmployee.getEmailAddress(), newEmployee.getEmailAddress());
@@ -74,8 +74,11 @@ public class EmployeeServiceUnitTest {
 
         when(employeeRepository.findById(any(Integer.class))).thenReturn(java.util.Optional.of(aMockEmployee));
         Employee newEmployee = employeeService.getEmployeeById(aMockEmployee.getEmployeeId());
-        assertNotNull(newEmployee);
 
+        verify(employeeRepository, times(1)).findById((any(Integer.class)));
+
+
+        assertNotNull(newEmployee);
         assertEquals(aMockEmployee.getFirstName(), newEmployee.getFirstName());
         assertEquals(aMockEmployee.getEmailAddress(), newEmployee.getEmailAddress());
         assertEquals(aMockEmployee.getLastName(), newEmployee.getLastName());
@@ -88,8 +91,11 @@ public class EmployeeServiceUnitTest {
 
         when(employeeRepository.findByFirstNameAndLastName(any(String.class), any(String.class))).thenReturn(aMockEmployee);
         Employee newEmployee = employeeService.getEmployeeByName(aMockEmployee.getFirstName(), aMockEmployee.getLastName());
-        assertNotNull(newEmployee);
 
+        verify(employeeRepository, times(1)).findByFirstNameAndLastName(any(String.class), any(String.class));
+
+
+        assertNotNull(newEmployee);
         assertEquals(aMockEmployee.getFirstName(), newEmployee.getFirstName());
         assertEquals(aMockEmployee.getEmailAddress(), newEmployee.getEmailAddress());
         assertEquals(aMockEmployee.getLastName(), newEmployee.getLastName());
@@ -102,6 +108,9 @@ public class EmployeeServiceUnitTest {
         when(employeeRepository.save(any(Employee.class))).thenReturn(aMockEmployee);
         aMockEmployee.setFirstName("changed");
         Employee newEmployee = employeeService.updateEmployee(aMockEmployee);
+
+        verify(employeeRepository, times(1)).save(any(Employee.class));
+
         assertNotNull(newEmployee);
 
         assertEquals(aMockEmployee.getFirstName(), newEmployee.getFirstName());
@@ -110,13 +119,8 @@ public class EmployeeServiceUnitTest {
     @Test
     public void testDeleteEmployee(){
         employeeService.deleteEmployee(aMockEmployee);
-        try {
-            Employee newEmployee = employeeService.getEmployeeById(aMockEmployee.getEmployeeId());
-        } catch (EmployeeNotFoundException ex){
-            assertEquals("could not find employee " + aMockEmployee.getEmployeeId() , ex.getMessage());
+        verify(employeeRepository, times(1)).delete(aMockEmployee);
         }
-
-    }
 
 
 }
