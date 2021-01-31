@@ -22,12 +22,8 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeByName(String firstName, String lastName){
-        Employee employee =  this.employeeRepository.findByFirstNameAndLastName(firstName, lastName);
-        if (employee != null){
-            return employee;
-        } else {
-            throw new EmployeeNotFoundException(firstName, lastName);
-        }
+        return Optional.ofNullable(this.employeeRepository.findByFirstNameAndLastName(firstName, lastName))
+                .orElseThrow(() -> new EmployeeNotFoundException(firstName, lastName));
     }
 
     public List<Employee> getEmployees(){
