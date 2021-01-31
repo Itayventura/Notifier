@@ -109,6 +109,12 @@ public class EmployeeServiceIntegrationTest {
 
     }
 
+    @Test public void testUpdateNotExistingEmployee(){
+        Employee newEmployee = employeeService.updateEmployee(employee);
+        assertNotNull(newEmployee);
+        assertEquals(employee, newEmployee);
+    }
+
     @Test(expected = org.springframework.dao.DataIntegrityViolationException.class)
     public void testUpdateEmployeeWithMissingAttributes(){
         anotherEmployee.setEmailAddress(null);

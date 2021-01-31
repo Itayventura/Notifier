@@ -49,18 +49,7 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Employee updatedEmployee){
-        Optional<Employee> opt = this.employeeRepository.findById(updatedEmployee.getEmployeeId());
-        if (opt.isPresent()){
-            Employee employee = opt.get();
-            employee.setEmailAddress(updatedEmployee.getEmailAddress());
-            employee.setFirstName(updatedEmployee.getFirstName());
-            employee.setLastName(updatedEmployee.getLastName());
-            employee.setRoll(updatedEmployee.getRoll());
-            employee.setTeam(updatedEmployee.getTeam());
-            return this.employeeRepository.save(employee);
-        } else{
-            return this.employeeRepository.save(updatedEmployee);
-        }
+        return this.employeeRepository.save(updatedEmployee);
     }
 
     public void deleteEmployee(Employee employee){
