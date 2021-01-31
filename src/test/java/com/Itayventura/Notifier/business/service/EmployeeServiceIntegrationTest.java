@@ -28,52 +28,16 @@ public class EmployeeServiceIntegrationTest {
 
     @Before
     public void setUpEmployees(){
-        Team team = new Team();
-        team.setTeamId(1);
-        team.setName("sw1");
-        team.setDepartment("R&D");
-
-        employee = new Employee();
-        employee.setTeam(team);
-        employee.setRoll("software developer");
-        employee.setLastName("Levi");
-        employee.setEmailAddress("a@a.com");
-        employee.setFirstName("David");
-
-        anotherEmployee = new Employee();
-        anotherEmployee.setTeam(team);
-        anotherEmployee.setRoll("software engineer");
-        anotherEmployee.setLastName("Cohen");
-        anotherEmployee.setEmailAddress("m@m.com");
-        anotherEmployee.setFirstName("Moran");
-
+        Team team = new Team(1, "sw1", "R&D");
+        employee = new Employee(null, "David", "Levi", "a@a.com", "software developer", team);
+        anotherEmployee = new Employee(null, "Moran", "Cohen", "m@m.com", "software engineer", team);
         employeeService.addEmployee(anotherEmployee);
     }
 
-
     @After
     public void deleteEmployees(){
-        Employee newEmployee = null;
-
         employeeService.deleteEmployee(employee);
-        try{
-            newEmployee = employeeService.getEmployeeByName(employee.getFirstName(), employee.getLastName());
-        } catch (EmployeeNotFoundException ex){
-            assertEquals("could not find employee " +
-                    employee.getFirstName() + " " + employee.getLastName(), ex.getMessage());
-        } finally{
-            assertNull(newEmployee);
-        }
-
         employeeService.deleteEmployee(anotherEmployee);
-        try{
-           newEmployee = employeeService.getEmployeeByName(anotherEmployee.getFirstName(), anotherEmployee.getLastName());
-        } catch (EmployeeNotFoundException ex){
-            assertEquals("could not find employee " +
-                    anotherEmployee.getFirstName() + " " + anotherEmployee.getLastName(), ex.getMessage());
-        } finally {
-            assertNull(newEmployee);
-        }
 
     }
 
@@ -81,14 +45,7 @@ public class EmployeeServiceIntegrationTest {
     public void testAddEmployee(){
         Employee newEmployee = employeeService.addEmployee(employee);
         assertNotNull(newEmployee);
-        assertEquals(employee.getFirstName(), newEmployee.getFirstName());
-        assertEquals(employee.getLastName(), newEmployee.getLastName());
-        assertEquals(employee.getEmailAddress(), newEmployee.getEmailAddress());
-        assertEquals(employee.getRoll(), newEmployee.getRoll());
-        assertEquals(employee.getTeam().getTeamId(), newEmployee.getTeam().getTeamId());
-        assertEquals(employee.getTeam().getDepartment(), newEmployee.getTeam().getDepartment());
-        assertEquals(employee.getTeam().getName(), newEmployee.getTeam().getName());
-
+        assertEquals(employee, newEmployee);
     }
 
     @Test (expected = org.springframework.dao.InvalidDataAccessApiUsageException.class)
@@ -104,8 +61,7 @@ public class EmployeeServiceIntegrationTest {
         Employee newEmployee = employeeService.updateEmployee(anotherEmployee);
 
         assertNotNull(newEmployee);
-        assertEquals(anotherEmployee.getFirstName(), newEmployee.getFirstName());
-        assertEquals(anotherEmployee.getLastName(), newEmployee.getLastName());
+        assertEquals(anotherEmployee, newEmployee);
 
     }
 
@@ -133,25 +89,14 @@ public class EmployeeServiceIntegrationTest {
     public void testGetEmployeeByName(){
         Employee newEmployee = employeeService.getEmployeeByName(anotherEmployee.getFirstName(), anotherEmployee.getLastName());
         assertNotNull(newEmployee);
-        assertEquals(anotherEmployee.getRoll(), newEmployee.getRoll());
-        assertEquals(anotherEmployee.getFirstName(), newEmployee.getFirstName());
-        assertEquals(anotherEmployee.getEmailAddress(), newEmployee.getEmailAddress());
-        assertEquals(anotherEmployee.getLastName(), newEmployee.getLastName());
-        assertEquals(anotherEmployee.getTeam().getName(), newEmployee.getTeam().getName());
-        assertEquals(anotherEmployee.getTeam().getDepartment(), newEmployee.getTeam().getDepartment());
+        assertEquals(anotherEmployee, newEmployee);
     }
 
     @Test
     public void testGetEmployeeById(){
         Employee newEmployee = employeeService.getEmployeeById(anotherEmployee.getEmployeeId());
         assertNotNull(newEmployee);
-        assertEquals(anotherEmployee.getRoll(), newEmployee.getRoll());
-        assertEquals(anotherEmployee.getFirstName(), newEmployee.getFirstName());
-        assertEquals(anotherEmployee.getEmailAddress(), newEmployee.getEmailAddress());
-        assertEquals(anotherEmployee.getLastName(), newEmployee.getLastName());
-        assertEquals(anotherEmployee.getTeam().getName(), newEmployee.getTeam().getName());
-        assertEquals(anotherEmployee.getTeam().getDepartment(), newEmployee.getTeam().getDepartment());
-
+        assertEquals(anotherEmployee, newEmployee);
     }
 
     @Test(expected = EmployeeNotFoundException.class)
@@ -168,11 +113,7 @@ public class EmployeeServiceIntegrationTest {
     public void testGetTeamEmployees(){
         List<Employee> teamEmployees = employeeService.getTeamEmployees(anotherEmployee.getTeam().getTeamId());
         assertFalse(teamEmployees.isEmpty());
-        for (Employee newEmployee: teamEmployees){
-            assertEquals(anotherEmployee.getTeam().getTeamId(), newEmployee.getTeam().getTeamId());
-            assertEquals(anotherEmployee.getTeam().getDepartment(), newEmployee.getTeam().getDepartment());
-            assertEquals(anotherEmployee.getTeam().getName(), newEmployee.getTeam().getName());
-        }
+        teamEmployees.forEach(newEmployee -> assertEquals(anotherEmployee.getTeam(), newEmployee.getTeam()));
     }
 
 }
