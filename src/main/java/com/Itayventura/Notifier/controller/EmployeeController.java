@@ -48,7 +48,7 @@ public class EmployeeController {
         if (newEmployee == null){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        EntityModel<Employee> entityModel = this.assembler.toModel(this.employeeService.addEmployee(employee));
+        EntityModel<Employee> entityModel = this.assembler.toModel(newEmployee);
         return new ResponseEntity<>(entityModel, HttpStatus.CREATED);
     }
 
