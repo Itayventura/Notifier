@@ -1,7 +1,6 @@
 package com.Itayventura.Notifier.controller;
 
 import com.Itayventura.Notifier.business.service.EmployeeService;
-import com.Itayventura.Notifier.business.service.TeamEmployeesService;
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.entity.Team;
 import com.Itayventura.Notifier.payroll.EmployeeModelAssembler;
@@ -34,9 +33,6 @@ public class EmployeeControllerTest {
 
     @MockBean
     private EmployeeService employeeService;
-
-    @MockBean
-    private TeamEmployeesService teamEmployeesService;
 
     @MockBean
     private EmployeeModelAssembler assembler;
@@ -164,7 +160,7 @@ public class EmployeeControllerTest {
     @Test
     public void getTeamEmployees() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/employees/team/"+aMockEmployee.getTeam().getName())
+                .get("/employees/team/"+aMockEmployee.getTeam().getTeamId())
 
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

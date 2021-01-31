@@ -13,7 +13,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -87,7 +91,7 @@ public class EmployeeServiceUnitTest {
     }
 
     @Test
-    public void getEmployeeByName() {
+    public void testGetEmployeeByName() {
 
         when(employeeRepository.findByFirstNameAndLastName(any(String.class), any(String.class))).thenReturn(aMockEmployee);
         Employee newEmployee = employeeService.getEmployeeByName(aMockEmployee.getFirstName(), aMockEmployee.getLastName());
@@ -120,7 +124,28 @@ public class EmployeeServiceUnitTest {
     public void testDeleteEmployee(){
         employeeService.deleteEmployee(aMockEmployee);
         verify(employeeRepository, times(1)).delete(aMockEmployee);
+    }
+
+    @Test
+    public void testGetTeamEmployees(){
+        List<Employee> teamEmployees = new ArrayList<>();
+        teamEmployees.add(aMockEmployee);
+        when(employeeRepository.findAllByTeam_TeamId(any(Integer.class))).thenReturn(teamEmployees);
+        List<Employee> newTeamEmployees = employeeService.getTeamEmployees(aMockEmployee.getTeam().getTeamId());
+
+        verify(employeeRepository, times(1)).findAllByTeam_TeamId(any(Integer.class));
+
+        assertTrue(!newTeamEmployees.isEmpty());
+
+        for (Employee newEmployee: teamEmployees){
+            assertEquals(aMockEmployee.getTeam().getTeamId(), newEmployee.getTeam().getTeamId());
+            assertEquals(aMockEmployee.getTeam().getDepartment(), newEmployee.getTeam().getDepartment());
+            assertEquals(aMockEmployee.getTeam().getName(), newEmployee.getTeam().getName());
         }
+
+
+    }
+
 
 
 }

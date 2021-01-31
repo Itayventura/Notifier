@@ -37,6 +37,13 @@ public class EmployeeService {
         return employeeList;
     }
 
+    public List<Employee> getTeamEmployees(int teamId){
+        Iterable<Employee> teamEmployees = this.employeeRepository.findAllByTeam_TeamId(teamId);
+        List<Employee> employeeList = new ArrayList<>();
+        teamEmployees.iterator().forEachRemaining(employeeList::add);
+        return employeeList;
+    }
+
     public Employee addEmployee(Employee employee) {
         return this.employeeRepository.save(employee);
     }

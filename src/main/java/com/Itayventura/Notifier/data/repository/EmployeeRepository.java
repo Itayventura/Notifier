@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
-    Iterable<Employee> findAllByTeam(Team team);
+    Iterable<Employee> findAllByTeam_TeamId(int id);
     Employee findByFirstNameAndLastName(String firstName, String lastName);
 }

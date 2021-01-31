@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -156,7 +158,15 @@ public class EmployeeServiceIntegrationTest {
         employeeService.getEmployeeByName("not", "exist");
     }
 
-    //todo test getEmployees ?
-
+    @Test
+    public void testGetTeamEmployees(){
+        List<Employee> teamEmployees = employeeService.getTeamEmployees(anotherEmployee.getTeam().getTeamId());
+        assertFalse(teamEmployees.isEmpty());
+        for (Employee newEmployee: teamEmployees){
+            assertEquals(anotherEmployee.getTeam().getTeamId(), newEmployee.getTeam().getTeamId());
+            assertEquals(anotherEmployee.getTeam().getDepartment(), newEmployee.getTeam().getDepartment());
+            assertEquals(anotherEmployee.getTeam().getName(), newEmployee.getTeam().getName());
+        }
+    }
 
 }

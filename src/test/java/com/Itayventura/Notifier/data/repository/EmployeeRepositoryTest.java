@@ -2,8 +2,8 @@ package com.Itayventura.Notifier.data.repository;
 
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.entity.Team;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class EmployeeRepositoryTest {
+public class EmployeeRepositoryTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -28,7 +28,7 @@ class EmployeeRepositoryTest {
 
     private Employee employee;
 
-    @BeforeEach
+    @Before
     public void setUpEmployee(){
         Team team = new Team();
         team.setTeamId(2);
@@ -44,20 +44,22 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    void findAllByTeam() {
+    public void testFindAllByTeam_TeamId() {
         testEntityManager.persist(employee);
 
-        Iterable<Employee> employees = employeeRepository.findAllByTeam(employee.getTeam());
+        Iterable<Employee> employees = employeeRepository.findAllByTeam_TeamId(employee.getTeam().getTeamId());
         Iterator<Employee> it = employees.iterator();
         assertTrue(it.hasNext());
         while(it.hasNext()){
             Employee foundEmployee = it.next();
             assertEquals(employee.getTeam().getName(), foundEmployee.getTeam().getName());
+            assertEquals(employee.getTeam().getDepartment(), foundEmployee.getTeam().getDepartment());
+            assertEquals(employee.getTeam().getTeamId(), foundEmployee.getTeam().getTeamId());
         }
     }
 
     @Test
-    void findByFirstNameAndLastName() {
+    public void testFindByFirstNameAndLastName() {
         testEntityManager.persist(employee);
         Employee foundEmployee = employeeRepository.findByFirstNameAndLastName(employee.getFirstName(), employee.getLastName());
         assertNotNull(foundEmployee);

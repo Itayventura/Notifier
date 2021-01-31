@@ -1,7 +1,6 @@
 package com.Itayventura.Notifier.controller;
 
 import com.Itayventura.Notifier.business.service.EmployeeService;
-import com.Itayventura.Notifier.business.service.TeamEmployeesService;
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.payroll.EmployeeModelAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +25,10 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
     private final EmployeeModelAssembler assembler;
-    private final TeamEmployeesService teamEmployeesService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, TeamEmployeesService teamEmployeesService, EmployeeModelAssembler assembler){
+    public EmployeeController(EmployeeService employeeService, EmployeeModelAssembler assembler){
         this.employeeService = employeeService;
-        this.teamEmployeesService = teamEmployeesService;
         this.assembler = assembler;
     }
 
@@ -43,15 +40,7 @@ public class EmployeeController {
                 linkTo(methodOn(EmployeeController.class).getAllEmployees()).withSelfRel()));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<Employee>> getEmployeeById(@PathVariable int id) {
-        Employee employee = this.employeeService.getEmployeeById(id);
-        if (employee == null){
-          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        EntityModel<Employee> entityModel = this.assembler.toModel(employee);
-        return new ResponseEntity<>(entityModel, HttpStatus.OK);
-    }
+
 
     @PostMapping("/new")
     public ResponseEntity<?> addEmployee(@RequestBody Employee employee, UriComponentsBuilder builder){
@@ -81,12 +70,22 @@ public class EmployeeController {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping(value = "/team/{teamName}")
-    public ResponseEntity<CollectionModel<EntityModel<Employee>>> getTeamEmployees(@PathVariable String teamName){
-        List<Employee> employees = this.teamEmployeesService.getTeamEmployees(teamName);
+    @GetMapping("/{id}")
+    public ResponseEntity<EntityModel<Employee>> getEmployeeById(@PathVariable int id) {
+        Employee employee = this.employeeService.getEmployeeById(id);
+        if (employee == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        EntityModel<Employee> entityModel = this.assembler.toModel(employee);
+        return new ResponseEntity<>(entityModel, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/team/{id}")
+    public ResponseEntity<CollectionModel<EntityModel<Employee>>> getTeamEmployeesByTeamId(@PathVariable int id){
+        List<Employee> employees = this.employeeService.getTeamEmployees(id);
         List<EntityModel<Employee>> entityModels = employees.stream().map(this.assembler::toModel).collect(Collectors.toList());
         return ResponseEntity.ok(CollectionModel.of(entityModels,
-                linkTo(methodOn(EmployeeController.class).getTeamEmployees(teamName)).withSelfRel()));
+                linkTo(methodOn(EmployeeController.class).getTeamEmployeesByTeamId(id)).withSelfRel()));
     }
 
 }

@@ -2,7 +2,6 @@ package com.Itayventura.Notifier.controller;
 
 import com.Itayventura.Notifier.business.service.EmployeeService;
 import com.Itayventura.Notifier.business.service.MessageService;
-import com.Itayventura.Notifier.business.service.TeamEmployeesService;
 import com.Itayventura.Notifier.data.entity.EmployeeMessage;
 import com.Itayventura.Notifier.data.entity.Message;
 import com.Itayventura.Notifier.data.entity.TeamMessage;
@@ -15,23 +14,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
 @RequestMapping("/messages")
 public class MessageController {
 
-    private final TeamEmployeesService teamEmployeesService;
     private final EmployeeService employeeService;
     private final MessageService messageService;
 
     @Autowired
-    public MessageController(TeamEmployeesService teamEmployeesService,
-                             EmployeeService employeeService,
+    public MessageController(EmployeeService employeeService,
                              MessageService messageService){
-        this.teamEmployeesService = teamEmployeesService;
         this.employeeService = employeeService;
         this.messageService = messageService;
     }
