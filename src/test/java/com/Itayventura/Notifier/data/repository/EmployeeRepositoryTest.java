@@ -48,13 +48,8 @@ public class EmployeeRepositoryTest {
         testEntityManager.persist(employee);
 
         Iterable<Employee> employees = employeeRepository.findAllByTeam_TeamId(employee.getTeam().getTeamId());
-        Iterator<Employee> it = employees.iterator();
-        assertTrue(it.hasNext());
-        while(it.hasNext()){
-            Employee foundEmployee = it.next();
-            assertEquals(employee.getTeam().getName(), foundEmployee.getTeam().getName());
-            assertEquals(employee.getTeam().getDepartment(), foundEmployee.getTeam().getDepartment());
-            assertEquals(employee.getTeam().getTeamId(), foundEmployee.getTeam().getTeamId());
+        for (Employee foundEmployee : employees) {
+            assertEquals(employee.getTeam(), foundEmployee.getTeam());
         }
     }
 
@@ -63,7 +58,6 @@ public class EmployeeRepositoryTest {
         testEntityManager.persist(employee);
         Employee foundEmployee = employeeRepository.findByFirstNameAndLastName(employee.getFirstName(), employee.getLastName());
         assertNotNull(foundEmployee);
-        assertEquals(employee.getFirstName(), foundEmployee.getFirstName());
-        assertEquals(employee.getLastName(), foundEmployee.getLastName());
+        assertEquals(employee, foundEmployee);
     }
 }
