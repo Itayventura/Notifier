@@ -20,13 +20,10 @@ import java.util.List;
 @RequestMapping("/messages")
 public class MessageController {
 
-    private final EmployeeService employeeService;
     private final MessageService messageService;
 
     @Autowired
-    public MessageController(EmployeeService employeeService,
-                             MessageService messageService){
-        this.employeeService = employeeService;
+    public MessageController(MessageService messageService){
         this.messageService = messageService;
     }
 
