@@ -16,8 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -42,18 +41,9 @@ public class EmployeeServiceUnitTest {
 
     @Before
     public void setUpEmployee(){
-        Team team = new Team();
-        team.setTeamId(1);
-        team.setName("sw1");
-        team.setDepartment("R&D");
+        Team team = new Team(1,"sw1", "R&D");
+        aMockEmployee = new Employee(1, "Itay", "Ventura", "a@a.com", "software developer", team);
 
-        aMockEmployee = new Employee();
-        aMockEmployee.setEmployeeId(1);
-        aMockEmployee.setTeam(team);
-        aMockEmployee.setRoll("software developer");
-        aMockEmployee.setLastName("Ventura");
-        aMockEmployee.setEmailAddress("a@a.com");
-        aMockEmployee.setFirstName("Itay");
     }
 
 
@@ -67,11 +57,7 @@ public class EmployeeServiceUnitTest {
         verify(employeeRepository, times(1)).save(aMockEmployee);
 
         assertNotNull(newEmployee);
-        assertEquals(aMockEmployee.getFirstName(), newEmployee.getFirstName());
-        assertEquals(aMockEmployee.getEmailAddress(), newEmployee.getEmailAddress());
-        assertEquals(aMockEmployee.getLastName(), newEmployee.getLastName());
-        assertEquals(aMockEmployee.getTeam(), newEmployee.getTeam());
-        assertEquals(aMockEmployee.getRoll(), newEmployee.getRoll());
+        assertEquals(aMockEmployee, newEmployee);
     }
     @Test
     public void testGetEmployeeById(){
@@ -81,13 +67,8 @@ public class EmployeeServiceUnitTest {
 
         verify(employeeRepository, times(1)).findById((any(Integer.class)));
 
-
         assertNotNull(newEmployee);
-        assertEquals(aMockEmployee.getFirstName(), newEmployee.getFirstName());
-        assertEquals(aMockEmployee.getEmailAddress(), newEmployee.getEmailAddress());
-        assertEquals(aMockEmployee.getLastName(), newEmployee.getLastName());
-        assertEquals(aMockEmployee.getTeam(), newEmployee.getTeam());
-        assertEquals(aMockEmployee.getRoll(), newEmployee.getRoll());
+        assertEquals(aMockEmployee, newEmployee);
     }
 
     @Test
@@ -98,13 +79,8 @@ public class EmployeeServiceUnitTest {
 
         verify(employeeRepository, times(1)).findByFirstNameAndLastName(any(String.class), any(String.class));
 
-
         assertNotNull(newEmployee);
-        assertEquals(aMockEmployee.getFirstName(), newEmployee.getFirstName());
-        assertEquals(aMockEmployee.getEmailAddress(), newEmployee.getEmailAddress());
-        assertEquals(aMockEmployee.getLastName(), newEmployee.getLastName());
-        assertEquals(aMockEmployee.getTeam(), newEmployee.getTeam());
-        assertEquals(aMockEmployee.getRoll(), newEmployee.getRoll());
+        assertEquals(aMockEmployee, newEmployee);
     }
 
     @Test
@@ -116,8 +92,8 @@ public class EmployeeServiceUnitTest {
         verify(employeeRepository, times(1)).save(any(Employee.class));
 
         assertNotNull(newEmployee);
+        assertEquals(aMockEmployee, newEmployee);
 
-        assertEquals(aMockEmployee.getFirstName(), newEmployee.getFirstName());
     }
 
     @Test
@@ -135,13 +111,9 @@ public class EmployeeServiceUnitTest {
 
         verify(employeeRepository, times(1)).findAllByTeam_TeamId(any(Integer.class));
 
-        assertTrue(!newTeamEmployees.isEmpty());
+        assertFalse(newTeamEmployees.isEmpty());
 
-        for (Employee newEmployee: teamEmployees){
-            assertEquals(aMockEmployee.getTeam().getTeamId(), newEmployee.getTeam().getTeamId());
-            assertEquals(aMockEmployee.getTeam().getDepartment(), newEmployee.getTeam().getDepartment());
-            assertEquals(aMockEmployee.getTeam().getName(), newEmployee.getTeam().getName());
-        }
+        newTeamEmployees.forEach(employee -> assertEquals(aMockEmployee.getTeam(), employee.getTeam()));
 
 
     }
