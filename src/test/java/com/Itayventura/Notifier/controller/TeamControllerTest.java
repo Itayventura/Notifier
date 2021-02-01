@@ -51,10 +51,7 @@ public class TeamControllerTest {
     public void setUpTeam(){
         aMockTeam = new Team(0, "sw3", "R&D");
     }
-
-    @After
-    public void tearDown() {
-    }
+    
 
     @Test
     public void testAddTeam() throws Exception {
