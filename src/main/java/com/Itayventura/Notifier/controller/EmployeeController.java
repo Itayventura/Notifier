@@ -45,39 +45,29 @@ public class EmployeeController {
     @PostMapping("/new")
     public ResponseEntity<?> addEmployee(@RequestBody Employee employee, UriComponentsBuilder builder){
         Employee newEmployee = this.employeeService.addEmployee(employee);
-        if (newEmployee == null){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        EntityModel<Employee> entityModel = this.assembler.toModel(newEmployee);
-        return new ResponseEntity<>(entityModel, HttpStatus.CREATED);
+        return newEmployee == null? new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR):
+                new ResponseEntity<>(this.assembler.toModel(newEmployee), HttpStatus.CREATED);
     }
 
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateEmployee(@RequestBody Employee employee){
+    public ResponseEntity<?> updateEmployee(@RequestBody Employee employee) {
         Employee newEmployee = this.employeeService.updateEmployee(employee);
-        if (newEmployee == null){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        EntityModel<Employee> entityModel = this.assembler.toModel(newEmployee);
-        return new ResponseEntity<>(entityModel, HttpStatus.CREATED);
-
+        return newEmployee == null ? new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR) :
+                new ResponseEntity<>(this.assembler.toModel(newEmployee), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteEmployee(@RequestBody Employee employee){
         this.employeeService.deleteEmployee(employee);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<Employee>> getEmployeeById(@PathVariable int id) {
+    public ResponseEntity<?> getEmployeeById(@PathVariable int id) {
         Employee employee = this.employeeService.getEmployeeById(id);
-        if (employee == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        EntityModel<Employee> entityModel = this.assembler.toModel(employee);
-        return new ResponseEntity<>(entityModel, HttpStatus.OK);
+        return employee == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND):
+                new ResponseEntity<>(this.assembler.toModel(employee), HttpStatus.OK);
     }
 
     @GetMapping(value = "/team/{id}")
