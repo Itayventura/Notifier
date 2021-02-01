@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -81,27 +82,26 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void testAll() throws Exception {
+    public void testGetAllEmployees() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/employees")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
+                .andExpect(status().isOk()).andDo(print());
     }
 
     @Test
-    public void testOne() throws Exception {
+    public void testGetEmployeeById() throws Exception {
 
         when(employeeService.getEmployeeById(any(Integer.class))).thenReturn(aMockEmployee);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/employees/1")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()).andDo(print());
     }
 
     @Test
-    public void testOneNotFound() throws Exception {
+    public void testGetEmployeeByIdNotFound() throws Exception {
         when(employeeService.getEmployeeById(any(Integer.class))).thenReturn(null);
 
 
