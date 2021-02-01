@@ -32,4 +32,14 @@ public class TeamMessage extends Message {
         return "Team";
     }
 
+    @Override
+    public boolean equals(Object object){
+        if(object instanceof TeamMessage){
+            TeamMessage teamMessage = (TeamMessage) object;
+            return super.equals(teamMessage) && this.team.equals(teamMessage.getTeam());
+
+        }
+        return false;
+    }
+
 }

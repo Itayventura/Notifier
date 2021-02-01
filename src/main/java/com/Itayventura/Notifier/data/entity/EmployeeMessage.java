@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "employee_message")
 public class EmployeeMessage extends Message {
@@ -31,6 +32,17 @@ public class EmployeeMessage extends Message {
     @Override
     public String getType() {
         return "Employee";
+    }
+
+
+    @Override
+    public boolean equals(Object object){
+        if(object instanceof EmployeeMessage){
+            EmployeeMessage employeeMessage = (EmployeeMessage) object;
+            return super.equals(employeeMessage) && this.employee.equals(employeeMessage.getEmployee());
+
+        }
+        return false;
     }
 
 
