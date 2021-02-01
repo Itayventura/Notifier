@@ -1,21 +1,19 @@
 package com.Itayventura.Notifier.business.service;
 
 import com.Itayventura.Notifier.business.domain.Merger;
-import com.Itayventura.Notifier.data.entity.EmployeeMessage;
-import com.Itayventura.Notifier.data.entity.Message;
-import com.Itayventura.Notifier.data.entity.TeamMessage;
+import com.Itayventura.Notifier.data.entity.*;
 import com.Itayventura.Notifier.data.repository.EmployeeMessageRepository;
 import com.Itayventura.Notifier.data.repository.TeamMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class MessageService {
     private final TeamMessageRepository teamMessageRepository;
     private final EmployeeMessageRepository employeeMessageRepository;
-
 
     @Autowired
     public MessageService(TeamMessageRepository teamMessageRepository,
@@ -24,26 +22,34 @@ public class MessageService {
         this.employeeMessageRepository = employeeMessageRepository;
     }
 
-    public Iterable<TeamMessage> getTeamMessages(){
-        return this.teamMessageRepository.findAll();
+    public EmployeeMessage addEmployeeMessages(EmployeeMessage message){
+        return this.employeeMessageRepository.save(message);
     }
 
-    public void addTeamMessage(TeamMessage message){
-        this.teamMessageRepository.save(message);
+
+    public TeamMessage addTeamMessage(TeamMessage message){
+        return this.teamMessageRepository.save(message);
     }
 
-    public List<Message> getMessages(){
-        Iterable<? extends Message> teamMessages = getTeamMessages();
-        Iterable<? extends Message> employeeMessages = getEmployeeMessages();
+    public List<Message> getAllMessages(){
+        Iterable<? extends Message> teamMessages = this.teamMessageRepository.findAll();
+        Iterable<? extends Message> employeeMessages = this.employeeMessageRepository.findAll();
         return Merger.mergeIterators(teamMessages.iterator(), employeeMessages.iterator());
     }
 
-    public Iterable<EmployeeMessage> getEmployeeMessages(){
-        return this.employeeMessageRepository.findAll();
+    public List<Message> getAllMessagesByEmployee(Employee employee){
+        Iterable<? extends Message> teamMessages = this.teamMessageRepository.findAllByTeam(employee.getTeam());
+        Iterable<? extends Message> employeeMessages = this.employeeMessageRepository.findAllByEmployee(employee);
+        return Merger.mergeIterators(teamMessages.iterator(), employeeMessages.iterator());
     }
 
-    public void addEmployeeMessages(EmployeeMessage message){
-        this.employeeMessageRepository.save(message);
+    public List<TeamMessage> getAllTeamMessagesByTeam(Team team){
+        Iterable<TeamMessage> teamMessages = this.teamMessageRepository.findAllByTeam(team);
+        List<TeamMessage> messages = new ArrayList<>();
+        teamMessages.iterator().forEachRemaining(messages::add);
+        return messages;
     }
+
+
 
 }
