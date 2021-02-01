@@ -5,7 +5,6 @@ import com.Itayventura.Notifier.data.entity.EmployeeMessage;
 import com.Itayventura.Notifier.data.entity.Message;
 import com.Itayventura.Notifier.data.entity.TeamMessage;
 import com.Itayventura.Notifier.data.repository.EmployeeMessageRepository;
-import com.Itayventura.Notifier.data.repository.MessageRepository;
 import com.Itayventura.Notifier.data.repository.TeamMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,16 +13,13 @@ import java.util.List;
 
 @Service
 public class MessageService {
-    private final MessageRepository messageRepository;
     private final TeamMessageRepository teamMessageRepository;
     private final EmployeeMessageRepository employeeMessageRepository;
 
 
     @Autowired
-    public MessageService(MessageRepository messageRepository,
-                          TeamMessageRepository teamMessageRepository,
+    public MessageService(TeamMessageRepository teamMessageRepository,
                           EmployeeMessageRepository employeeMessageRepository){
-        this.messageRepository = messageRepository;
         this.teamMessageRepository = teamMessageRepository;
         this.employeeMessageRepository = employeeMessageRepository;
     }
@@ -39,8 +35,7 @@ public class MessageService {
     public List<Message> getMessages(){
         Iterable<? extends Message> teamMessages = getTeamMessages();
         Iterable<? extends Message> employeeMessages = getEmployeeMessages();
-        List<Message> messages = Merger.mergeIterators(teamMessages.iterator(), employeeMessages.iterator());
-        return messages;
+        return Merger.mergeIterators(teamMessages.iterator(), employeeMessages.iterator());
     }
 
     public Iterable<EmployeeMessage> getEmployeeMessages(){
@@ -50,4 +45,5 @@ public class MessageService {
     public void addEmployeeMessages(EmployeeMessage message){
         this.employeeMessageRepository.save(message);
     }
+
 }
