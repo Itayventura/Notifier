@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-//todo handle (team does not exist) java.util.NoSuchElementException:
 @Controller
 @RequestMapping("/employees")
 public class EmployeeController {
