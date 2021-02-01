@@ -1,16 +1,21 @@
 package com.Itayventura.Notifier.data.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@Data
 @Entity
 @Table(name = "employee_message")
 public class EmployeeMessage extends Message {
 
     @JoinColumn(name = "employee_id")
     @ManyToOne
+    @Getter
+    @Setter
     private Employee employee;
 
     public EmployeeMessage(int messageId, String content, Employee sender, Employee employee){
