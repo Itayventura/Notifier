@@ -35,7 +35,7 @@ public abstract class Message {
         this.localDateTime = LocalDateTime.now();
     }
 
-    abstract String getType();
+    public abstract String getType();
 
 
 }
