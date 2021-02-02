@@ -1,8 +1,8 @@
 package com.Itayventura.Notifier.data.repository;
 
 import com.Itayventura.Notifier.data.entity.Team;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -28,7 +28,7 @@ public class TeamRepositoryTest {
 
     private Team team;
 
-    @Before
+    @BeforeEach
     public void setTeam(){
         team = new Team(0, "sw11", "R&D");
     }

@@ -2,16 +2,16 @@ package com.Itayventura.Notifier.payroll;
 
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.entity.Team;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Links;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EmployeeModelAssemblerTest {
 
@@ -19,7 +19,7 @@ public class EmployeeModelAssemblerTest {
 
     private Employee employee;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         employee = new Employee(0, "a", "b", "c@c.com", "R",new Team(0, "a", "b"));
     }

@@ -5,8 +5,8 @@ import com.Itayventura.Notifier.data.entity.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
@@ -53,7 +53,7 @@ public class MessageControllerTest {
     private Team team;
     private Employee employee;
 
-    @Before
+    @BeforeEach
     public void setUpVariables(){
         team =  new Team(1, "sw1", "R&D");
         Employee sender = new Employee(2, "Mani", "mani", "c@c.com", "Team leader", team);
@@ -62,7 +62,7 @@ public class MessageControllerTest {
         employeeMessage = new EmployeeMessage(1, "content", sender, employee);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }

@@ -5,8 +5,8 @@ import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.entity.Team;
 import com.Itayventura.Notifier.payroll.EmployeeModelAssembler;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
@@ -41,14 +41,14 @@ public class EmployeeControllerTest {
     @InjectMocks
     private EmployeeController employeeController;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     private Employee aMockEmployee;
 
-    @Before
+    @BeforeEach
     public void setUpEmployee(){
         Team team = new Team(0, "sw1", "R&D");
         aMockEmployee = new Employee(null, "Itay", "ventura", "a@a.com", "software developer", team);

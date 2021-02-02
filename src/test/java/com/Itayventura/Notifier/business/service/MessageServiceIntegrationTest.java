@@ -1,9 +1,9 @@
 package com.Itayventura.Notifier.business.service;
 
 import com.Itayventura.Notifier.data.entity.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +28,7 @@ public class MessageServiceIntegrationTest {
     private static Employee sender;
     private static Team team;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass(){
         team =  new Team(1, "sw1", "R&D");
         sender = new Employee(2, "Mani", "mani", "c@c.com", "Team leader", team);
@@ -40,7 +40,7 @@ public class MessageServiceIntegrationTest {
 
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         messageService.addTeamMessage(anotherTeamMessage);
         messageService.addEmployeeMessages(anotherEmployeeMessage);

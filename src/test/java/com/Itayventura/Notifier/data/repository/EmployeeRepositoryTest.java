@@ -2,8 +2,8 @@ package com.Itayventura.Notifier.data.repository;
 
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.entity.Team;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -27,7 +27,7 @@ public class EmployeeRepositoryTest {
 
     private Employee employee;
 
-    @Before
+    @BeforeEach
     public void setUpEmployee(){
         Team team = new Team(2, "sw2", "R&D");
         employee = new Employee(null, "David", "Levi","a@a.com", "software developer", team);

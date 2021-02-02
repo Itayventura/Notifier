@@ -4,9 +4,8 @@ import com.Itayventura.Notifier.business.service.TeamService;
 import com.Itayventura.Notifier.data.entity.Team;
 import com.Itayventura.Notifier.payroll.TeamModelAssembler;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
@@ -42,16 +41,16 @@ public class TeamControllerTest {
 
     private Team aMockTeam;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Before
+    @BeforeEach
     public void setUpTeam(){
         aMockTeam = new Team(0, "sw3", "R&D");
     }
-    
+
 
     @Test
     public void testAddTeam() throws Exception {

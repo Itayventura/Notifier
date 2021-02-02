@@ -2,8 +2,9 @@ package com.Itayventura.Notifier.business.service;
 
 import com.Itayventura.Notifier.data.entity.Team;
 import com.Itayventura.Notifier.payroll.TeamNotFoundException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +23,7 @@ public class TeamServiceIntegrationTest {
     private Team team;
     private Team anotherTeam;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         team = new Team(0, "sw3", "R&D");
         anotherTeam = new Team(0, "sw4", "R&D");
@@ -36,9 +37,12 @@ public class TeamServiceIntegrationTest {
         assertEquals(team, newTeam);
     }
 
-    @Test(expected = org.springframework.dao.DataIntegrityViolationException.class)
+    @Test
     public void testAddIllegalTeam(){
-        teamService.addTeam(new Team());
+        Assertions.assertThrows(org.springframework.dao.DataIntegrityViolationException.class, () -> {
+            teamService.addTeam(new Team());
+        });
+
     }
 
     @Test
@@ -48,8 +52,11 @@ public class TeamServiceIntegrationTest {
         assertEquals(anotherTeam, newTeam);
     }
 
-    @Test(expected = TeamNotFoundException.class)
+    @Test
     public void testGetNotExistingTeamById() {
-        teamService.getTeamById(Integer.MAX_VALUE);
+        Assertions.assertThrows(TeamNotFoundException.class, () -> {
+            teamService.getTeamById(Integer.MAX_VALUE);
+        });
+
     }
 }

@@ -1,8 +1,8 @@
 package com.Itayventura.Notifier.payroll;
 
 import com.Itayventura.Notifier.data.entity.Team;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Links;
@@ -18,7 +18,7 @@ public class TeamModelAssemblerTest {
     private TeamModelAssembler assembler;
     private Team team;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         team = new Team(0, "r", "r");
         assembler = new TeamModelAssembler();

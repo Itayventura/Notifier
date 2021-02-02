@@ -3,9 +3,10 @@ package com.Itayventura.Notifier.business.service;
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.entity.Team;
 import com.Itayventura.Notifier.payroll.EmployeeNotFoundException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +27,7 @@ public class EmployeeServiceIntegrationTest {
     private Employee employee;
     private Employee anotherEmployee;
 
-    @Before
+    @BeforeEach
     public void setUpEmployees(){
         Team team = new Team(1, "sw1", "R&D");
         employee = new Employee(null, "David", "Levi", "a@a.com", "software developer", team);
@@ -34,7 +35,7 @@ public class EmployeeServiceIntegrationTest {
         employeeService.addEmployee(anotherEmployee);
     }
 
-    @After
+    @AfterEach
     public void deleteEmployees(){
         employeeService.deleteEmployee(employee);
         employeeService.deleteEmployee(anotherEmployee);
@@ -48,10 +49,13 @@ public class EmployeeServiceIntegrationTest {
         assertEquals(employee, newEmployee);
     }
 
-    @Test (expected = org.springframework.dao.InvalidDataAccessApiUsageException.class)
+    @Test
     public void testAddEmployeeToNotExistingTeam(){
         employee.setTeam(new Team());
-        employeeService.addEmployee(employee);
+        Assertions.assertThrows(org.springframework.dao.InvalidDataAccessApiUsageException.class, () -> {
+            employeeService.addEmployee(employee);
+        });
+
     }
 
     @Test
@@ -71,17 +75,23 @@ public class EmployeeServiceIntegrationTest {
         assertEquals(employee, newEmployee);
     }
 
-    @Test(expected = org.springframework.dao.DataIntegrityViolationException.class)
+    @Test
     public void testUpdateEmployeeWithMissingAttributes(){
         anotherEmployee.setEmailAddress(null);
-        employeeService.updateEmployee(anotherEmployee);
+        Assertions.assertThrows(org.springframework.dao.DataIntegrityViolationException.class, () -> {
+            employeeService.updateEmployee(anotherEmployee);
+        });
+
 
     }
 
-    @Test(expected = EmployeeNotFoundException.class)
+    @Test
     public void testDeleteEmployee(){
         employeeService.deleteEmployee(anotherEmployee);
-        employeeService.getEmployeeByName(anotherEmployee.getFirstName(), anotherEmployee.getLastName());
+        Assertions.assertThrows(EmployeeNotFoundException.class, () -> {
+            employeeService.getEmployeeByName(anotherEmployee.getFirstName(), anotherEmployee.getLastName());
+        });
+
     }
 
 
@@ -99,14 +109,20 @@ public class EmployeeServiceIntegrationTest {
         assertEquals(anotherEmployee, newEmployee);
     }
 
-    @Test(expected = EmployeeNotFoundException.class)
+    @Test
     public void testGetNotExistingEmployeeById(){
-        employeeService.getEmployeeById(Integer.MAX_VALUE);
+        Assertions.assertThrows(EmployeeNotFoundException.class, () -> {
+            employeeService.getEmployeeById(Integer.MAX_VALUE);
+        });
+
     }
 
-    @Test(expected = EmployeeNotFoundException.class)
+    @Test
     public void testGetNotExistingEmployeeByName(){
-        employeeService.getEmployeeByName("not", "exist");
+        Assertions.assertThrows(EmployeeNotFoundException.class, () -> {
+            employeeService.getEmployeeByName("not", "exist");
+        });
+
     }
 
     @Test

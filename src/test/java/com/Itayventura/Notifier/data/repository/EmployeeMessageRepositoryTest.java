@@ -3,8 +3,8 @@ package com.Itayventura.Notifier.data.repository;
 import com.Itayventura.Notifier.data.entity.Employee;
 import com.Itayventura.Notifier.data.entity.EmployeeMessage;
 import com.Itayventura.Notifier.data.entity.Team;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -32,7 +32,7 @@ public class EmployeeMessageRepositoryTest {
     private Employee employee;
     private Employee sender;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         sender = new Employee(2, "Mani", "mani", "c@c.com", "Team Leader", new Team(1, "sw1", "R&D"));
         employee = new Employee(1, "Itay", "Ventura", "a@a.com", "software developer", new Team(1, "sw1", "R&D"));

@@ -2,8 +2,8 @@ package com.Itayventura.Notifier.business.domain;
 
 import com.Itayventura.Notifier.data.entity.*;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,8 +20,8 @@ public class MergerTest {
     public static Iterator<EmployeeMessage> employeeMessagesIterator;
     public static Iterator<EmployeeMessage> emptyEmployeeMessagesIterator;
 
-    @Before
-    public void setUpClass() throws InterruptedException {
+    @BeforeEach
+    public void setUp() throws InterruptedException {
         List<TeamMessage> teamMessages = new ArrayList<>();
         List<EmployeeMessage> employeeMessages = new ArrayList<>();
 

@@ -7,6 +7,27 @@
 - [x] Java 11
 - [x] Maven + JAVA_HOME set to jdk
 
+## Installation
+1. Clone the repository:
+
+    ```sh
+    $ git clone https://github.com/Itayventura/Notifier.git
+    ```
+
+2. Build and run tests:
+    - from git bash:
+        ```sh
+        $ cd Notifier/
+        $ mvn clean install
+        ```
+
+    - All modules should be built successfully
+
+3. Run app :
+    ```sh
+    java -jar target/notifier-0.0.1-snapshot.jar
+    ```
+
 ## REST APIs
 
 ### GET Employees
