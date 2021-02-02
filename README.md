@@ -15,14 +15,11 @@
     ```
 
 2. Build and run tests:
-    - from git bash:
-        ```sh
-        $ cd Notifier/
-        $ mvn clean install
-        ```
-
-    - All modules should be built successfully
-
+   
+     ```sh
+     $ mvn clean install
+     ```
+   
 3. Run app :
     ```sh
     java -jar target/notifier-0.0.1-snapshot.jar
