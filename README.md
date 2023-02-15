@@ -1,7 +1,12 @@
 # Notifier
-> implemented an Employee Management System with a feature of sending messages inside the company.
-> 
-> Notifier is a spring boot web application, that can run in any operating system!
+> An Employee Management System implemented as a spring boot web application, that can run in any operating system!
+>
+> Notifier is a RESTful service that exposes 14 easy use endpoints. 
+> Besides of the ordinary CRUD operation, the app has a feature of sending messages in the company, to a specific employee or to a whole team. 
+> Entities are managed by hibernate ORM, an embedded database is created by a script written in SQL, and repositories implement CRUD repositories to save boiler plate code. 
+> Maven manages all project dependencies, plugins and properties. 
+> The code follows Object Oriented practice and keeps the Spring convention of packaging. 
+> In addition, it is testable and has 56 different tests. Junit is used for testing, and Mockito framework for unit testing. 
 
 ## Prerequisites
 - [x] Java 11
